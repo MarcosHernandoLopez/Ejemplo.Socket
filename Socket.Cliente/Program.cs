@@ -14,7 +14,7 @@ namespace Calculator.Cliente
     {
         static void Main(string[] args)
         {
-            
+            DatosOperacion datos = new DatosOperacion(1, 1, TipoOperacion.Suma);
             Console.WriteLine("Console C#\r");
             Console.WriteLine("------------------------\n");
 
@@ -25,7 +25,7 @@ namespace Calculator.Cliente
                 string mensaje = Console.ReadLine();
 
                 var resultado = EnviaMenaje(mensaje);
-
+                
                 Console.WriteLine(resultado);
             }
 
@@ -65,8 +65,9 @@ namespace Calculator.Cliente
 
                     Console.WriteLine("Socket redad for {0}",
                         sender.LocalEndPoint.ToString());
-
-                    var cacheEnvio = Encoding.UTF8.GetBytes(mensaje);
+                    DatosOperacion datos = new DatosOperacion(1, 1, TipoOperacion.Suma);
+                    string datosSerializados
+                    var cacheEnvio = Encoding.UTF8.GetBytes();
 
                     // Send the data through the socket.
                     int bytesSend = sender.Send(cacheEnvio);

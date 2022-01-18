@@ -8,6 +8,10 @@ namespace SocketComun
 {
     class Resultado
     {
+        public Resultado()
+        {
+        }
+
         double operando1 { get; set; }
         double operando2 { get; set; }
         double valor { get; set; }

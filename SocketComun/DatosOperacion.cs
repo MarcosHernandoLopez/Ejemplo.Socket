@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace SocketComun
 {
-    class DatosOperacion
+    public class DatosOperacion
     {
-        double operando1 { get; set; }
-        double operando2 { get; set; }
-        TipoOperacion operacion { get; set; }
-    }
+        public DatosOperacion()
+        {
+        }
 
-    public enum TipoOperacion
-    {
-        suma,
-        resta,
-        multiplicacion,
-        division
+        public DatosOperacion(double operando1, double operando2, TipoOperacion operacion)
+        {
+            this.operando1 = operando1;
+            this.operando2 = operando2;
+            this.operacion = operacion;
+        }
+
+        public double operando1 { get; set; }
+        public double operando2 { get; set; }
+        public TipoOperacion operacion { get; set; }
     }
 
 }

@@ -17,7 +17,7 @@ namespace Calculator.Servidor
             //IPAddress ipAddress = IPAddress.Parse("ip escucha");
 
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 2800);
-
+            
             try
             {
                 // Create a Socket that will use Tcp protocol
