@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Linq;
+using SocketComun;
 
 namespace Calculator.Cliente
 {
@@ -13,11 +14,13 @@ namespace Calculator.Cliente
     {
         static void Main(string[] args)
         {
+            
             Console.WriteLine("Console C#\r");
             Console.WriteLine("------------------------\n");
 
             while (true)
             {
+                
                 Console.WriteLine("Mensaje:");
                 string mensaje = Console.ReadLine();
 
@@ -40,6 +43,7 @@ namespace Calculator.Cliente
                 // If a host has multiple addresses, you will get a list of addresses
                 
                 IPHostEntry host = Dns.GetHostEntry("localhost");
+                //IPHostEntry host = Dns.GetHostEntry("infc13_profe");
                 IPAddress ipAddress = host.AddressList[0];
 
                 //IPAddress ipAddress = IPAddress.Parse("ip destino");
