@@ -7,6 +7,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Linq;
 using SocketComun;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace Calculator.Cliente
 {
@@ -20,13 +22,57 @@ namespace Calculator.Cliente
 
             while (true)
             {
-                
-                Console.WriteLine("Mensaje:");
-                string mensaje = Console.ReadLine();
+                DatosOperacion op = new DatosOperacion();
 
+                Console.Write("Dime el primer número para operar: ");
+
+                double operando1 = Convert.ToDouble(Console.ReadLine());
+
+                Console.Write("Dime el segundo número para operar: ");
+
+                double operando2 = Convert.ToDouble(Console.ReadLine());
+
+                string operacion = "";
+
+                while (operacion != "Suma" && operacion != "Multiplicacion" && operacion != "Resta" && operacion != "Division")
+                {
+
+                    Console.Write("Operación a realizar (Suma, Resta, Multiplicacion, Division): ");
+                    operacion = Console.ReadLine();
+
+                    if (operacion != "Suma" && operacion != "Multiplicacion" && operacion != "Resta" && operacion != "Division")
+                    {
+                        Console.WriteLine("Operación no válida");
+                    }
+                    else
+                    {
+
+
+                        switch (operacion)
+                        {
+                            case "Suma":
+                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Suma);
+                                break;
+                            case "Resta":
+                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Resta);
+                                break;
+                            case "Multiplicacion":
+                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Resta);
+                                break;
+                            case "Division":
+                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Resta);
+                                break;
+
+                        }
+                    }
+
+                }
+
+                string mensaje = Metodos.Serialize(op);
                 var resultado = EnviaMenaje(mensaje);
-                
+
                 Console.WriteLine(resultado);
+                Console.WriteLine();
             }
 
             Console.Write("Press any key to close the Calculator console app...");
@@ -41,7 +87,7 @@ namespace Calculator.Cliente
                 // Get Host IP Address that is used to establish a connection
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1
                 // If a host has multiple addresses, you will get a list of addresses
-                
+
                 IPHostEntry host = Dns.GetHostEntry("localhost");
                 //IPHostEntry host = Dns.GetHostEntry("infc13_profe");
                 IPAddress ipAddress = host.AddressList[0];
@@ -66,8 +112,7 @@ namespace Calculator.Cliente
                     Console.WriteLine("Socket redad for {0}",
                         sender.LocalEndPoint.ToString());
                     DatosOperacion datos = new DatosOperacion(1, 1, TipoOperacion.Suma);
-                    string datosSerializados
-                    var cacheEnvio = Encoding.UTF8.GetBytes();
+                    var cacheEnvio = Encoding.UTF8.GetBytes(mensaje);
 
                     // Send the data through the socket.
                     int bytesSend = sender.Send(cacheEnvio);
@@ -106,5 +151,7 @@ namespace Calculator.Cliente
 
             return null;
         }
+
+
     }
 }
