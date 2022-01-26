@@ -6,14 +6,21 @@ using System.Threading.Tasks;
 
 namespace SocketComun
 {
-    class Resultado
+    public class Resultado
     {
         public Resultado()
+        { }
+
+        public Resultado(double operando1, double operando2, double valor)
         {
+            this.operando1 = operando1;
+            this.operando2 = operando2;
+            this.valor = valor;
         }
 
-        double operando1 { get; set; }
-        double operando2 { get; set; }
-        double valor { get; set; }
+        public double operando1 { get; set; }
+        public double operando2 { get; set; }
+        public double valor { get; set; }
+
     }
 }

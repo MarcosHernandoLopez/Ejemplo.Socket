@@ -34,13 +34,13 @@ namespace Calculator.Cliente
 
                 string operacion = "";
 
-                while (operacion != "Suma" && operacion != "Multiplicacion" && operacion != "Resta" && operacion != "Division")
+                while (operacion != "suma" && operacion != "multiplicacion" && operacion != "resta" && operacion != "division")
                 {
 
-                    Console.Write("Operación a realizar (Suma, Resta, Multiplicacion, Division): ");
+                    Console.Write("Operación a realizar (suma, resta, multiplicacion, division): ");
                     operacion = Console.ReadLine();
 
-                    if (operacion != "Suma" && operacion != "Multiplicacion" && operacion != "Resta" && operacion != "Division")
+                    if (operacion != "suma" && operacion != "multiplicacion" && operacion != "resta" && operacion != "division")
                     {
                         Console.WriteLine("Operación no válida");
                     }
@@ -50,17 +50,17 @@ namespace Calculator.Cliente
 
                         switch (operacion)
                         {
-                            case "Suma":
+                            case "suma":
                                 op = new DatosOperacion(operando1, operando2, TipoOperacion.Suma);
                                 break;
-                            case "Resta":
+                            case "resta":
                                 op = new DatosOperacion(operando1, operando2, TipoOperacion.Resta);
                                 break;
-                            case "Multiplicacion":
-                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Resta);
+                            case "multiplicacion":
+                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Multiplicacion);
                                 break;
-                            case "Division":
-                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Resta);
+                            case "division":
+                                op = new DatosOperacion(operando1, operando2, TipoOperacion.Division);
                                 break;
 
                         }
@@ -68,8 +68,8 @@ namespace Calculator.Cliente
 
                 }
 
-                string mensaje = Metodos.Serialize(op);
-                var resultado = EnviaMenaje(mensaje);
+                string mensaje = JsonSerializer.Serialize(op);
+                var resultado = EnviaMenaje(mensaje, operacion);
 
                 Console.WriteLine(resultado);
                 Console.WriteLine();
@@ -79,7 +79,7 @@ namespace Calculator.Cliente
             Console.ReadKey();
         }
 
-        static string EnviaMenaje(string mensaje)
+        static string EnviaMenaje(string mensaje, string op)
         {
             try
             {
@@ -122,12 +122,14 @@ namespace Calculator.Cliente
                     int bytesRec1 = sender.Receive(bufferRec);
 
                     var resultado = Encoding.UTF8.GetString(bufferRec, 0, bytesRec1);
+                    Resultado r = JsonSerializer.Deserialize<Resultado>(resultado);
+                    string rFinal = "El resultado de la " + op + " de " + r.operando1 + " y " + r.operando2 + " es: " + r.valor;
 
                     // Release the socket.
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
 
-                    return resultado;
+                    return rFinal;
 
                 }
                 catch (ArgumentNullException ane)

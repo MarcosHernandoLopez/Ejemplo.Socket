@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocketComun;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading;
 
 namespace Calculator.Servidor
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
@@ -17,7 +18,7 @@ namespace Calculator.Servidor
             //IPAddress ipAddress = IPAddress.Parse("ip escucha");
 
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 2800);
-            
+
             try
             {
                 // Create a Socket that will use Tcp protocol
@@ -43,10 +44,12 @@ namespace Calculator.Servidor
                     if (bytesMenaje > 0)
                     {
                         var mensaje = Encoding.UTF8.GetString(cacheMenaje, 0, bytesMenaje);
+                        DatosOperacion obj = JsonSerializer.Deserialize<DatosOperacion>(mensaje);
 
-                        var respuesta = "Ok: " + mensaje;
+                        Resultado res = new Resultado(obj.operando1, obj.operando2, obj.calcular(obj));
+                        string r = JsonSerializer.Serialize(res);
+                        var respuesta = r;
 
-                        Console.WriteLine("{0} -> {1}", mensaje, respuesta);
 
                         var cacheRespuesta = Encoding.UTF8.GetBytes(respuesta);
                         handler.Send(cacheRespuesta);
