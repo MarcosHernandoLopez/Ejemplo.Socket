@@ -23,29 +23,9 @@ namespace SocketComun
         public double operando2 { get; set; }
         public TipoOperacion operacion { get; set; }
 
-        public double calcular(DatosOperacion obj)
+        public override string ToString()
         {
-            double res = 0;
-            int op = (int)obj.operacion;
-
-            if (op == 0)
-            {
-                res = obj.operando1 + obj.operando2;
-            }
-            else if (op == 1)
-            {
-                res = obj.operando1 - obj.operando2;
-            }
-            else if (op == 2)
-            {
-                res = obj.operando1 * obj.operando2;
-            }
-            else if (op == 3)
-            {
-                res = obj.operando1 / obj.operando2;
-            }
-
-            return res;
+            return "Operando 1 = " + operando1 + "      Operando 2 = " + operando2 + "      Operación = " + operacion;
         }
     }
 

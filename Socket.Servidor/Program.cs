@@ -43,10 +43,31 @@ namespace Calculator.Servidor
 
                     if (bytesMenaje > 0)
                     {
+                        double resOp;
                         var mensaje = Encoding.UTF8.GetString(cacheMenaje, 0, bytesMenaje);
                         DatosOperacion obj = JsonSerializer.Deserialize<DatosOperacion>(mensaje);
+                        Resultado res = null;
+                        if (obj.operacion == TipoOperacion.Suma)
+                        {
+                            resOp = obj.operando1 + obj.operando2;
 
-                        Resultado res = new Resultado(obj.operando1, obj.operando2, obj.calcular(obj));
+                        }
+                        else if (obj.operacion == TipoOperacion.Resta)
+                        {
+                            resOp = obj.operando1 - obj.operando2;
+
+                        }
+                        else if (obj.operacion == TipoOperacion.Multiplicacion)
+                        {
+                            resOp = obj.operando1 * obj.operando2;
+
+                        }
+                        else
+                        {
+                            resOp = obj.operando1 / obj.operando2;
+                        }
+                        res = new Resultado(obj.operando1, obj.operando2, resOp);
+
                         string r = JsonSerializer.Serialize(res);
                         var respuesta = r;
 
@@ -68,5 +89,7 @@ namespace Calculator.Servidor
             Console.WriteLine("\n Press any key to continue...");
             Console.ReadKey();
         }
+
     }
+
 }

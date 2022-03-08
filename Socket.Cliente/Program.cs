@@ -60,9 +60,13 @@ namespace Calculator.Cliente
                                 op = new DatosOperacion(operando1, operando2, TipoOperacion.Multiplicacion);
                                 break;
                             case "division":
+                                if (operando2 == 0)
+                                {
+                                    Console.WriteLine("No se puede dividir entre 0, se cambiará el divisor a 1");
+                                    operando2 = 1;
+                                }
                                 op = new DatosOperacion(operando1, operando2, TipoOperacion.Division);
                                 break;
-
                         }
                     }
 
@@ -106,11 +110,6 @@ namespace Calculator.Cliente
                     // Connect to Remote EndPoint
                     sender.Connect(remoteEP);
 
-                    Console.WriteLine("Socket connected to {0}",
-                        sender.RemoteEndPoint.ToString());
-
-                    Console.WriteLine("Socket redad for {0}",
-                        sender.LocalEndPoint.ToString());
                     DatosOperacion datos = new DatosOperacion(1, 1, TipoOperacion.Suma);
                     var cacheEnvio = Encoding.UTF8.GetBytes(mensaje);
 
